@@ -1,4 +1,7 @@
 import { useState, useReducer } from "react";
+import styled from "styled-components";
+import produce from "immer";
+
 import Hero from "./components/Hero";
 import Container from "./components/Container";
 
@@ -9,39 +12,93 @@ import TodoShell from "./components/TodoShell";
 
 import { mock_data } from "./mockData";
 
-const initialState = mock_data;
+const todos = [
+  {
+    text: "Complete online Javascript course",
+    complete: false,
+    id: 1,
+  },
+  {
+    text: "Jog around the park 3x",
+    complete: false,
+    id: 2,
+  },
+  {
+    text: "10 minutes meditation",
+    complete: false,
+    id: 3,
+  },
+  {
+    text: "Read for 1 hour",
+    complete: false,
+    id: 4,
+  },
+  {
+    text: "Pick up groceries",
+    complete: false,
+    id: 5,
+  },
+  {
+    text: "Complete Todo App on Frontend Mentor",
+    complete: false,
+    id: 6,
+  },
+];
 
-function reducer(state, action) {
+const getInitialState = () => {
+  return {
+    todos,
+  };
+};
+
+const todosReducer = (draft, action) => {
   switch (action.type) {
-    case "completeTodo":
-      return state.map((todo) => {
-        if (todo.id === action.payload.id) {
-          todo.complete = true;
-        }
-        return todo;
-      });
-    case "unCompleteTodo":
-      return state.map((todo) => {
-        if (todo.id === action.payload.id) {
-          todo.complete = false;
-        }
-        return todo;
-      });
+    case "COMPLETE_TODO": {
+      const id = action.payload.id;
+      const todo = draft.todos.findIndex((todo) => todo.id === id);
+      console.log(todo);
+      draft.todos[todo].complete = true;
+      break;
+    }
+    case "UNCOMPLETE_TODO": {
+      const id = action.payload.id;
+      const todo = draft.todos.findIndex((todo) => todo.id === id);
+      draft.todos[todo].complete = false;
+      break;
+    }
+
+    case "REMOVE_TODO": {
+      const id = action.payload.id;
+      const todo = draft.todos.findIndex((todo) => todo.id === id);
+
+      draft.todos.splice(todo, 1);
+      break;
+    }
   }
-}
+};
+
+const curriedTodosReducer = produce(todosReducer);
+
+const AppStyles = styled.div`
+  background-color: ${({ theme }) =>
+    theme === "light"
+      ? `var(--light-very-light-grayish-blue)`
+      : `var(--dark-very-dark-blue)`};
+  height: 100vh;
+  width: 100%;
+  position: relative;
+`;
 
 function App() {
   const [theme, setTheme] = useState("light");
   const [input, setInput] = useState("");
 
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(curriedTodosReducer, getInitialState());
   const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light");
+  const todos = state.todos;
 
   return (
-    <div
-      className="App"
-      style={{ height: "100vh", width: "100%", position: "relative" }}
-    >
+    <AppStyles theme={theme}>
       <Hero theme={theme} toggleTheme={toggleTheme} />
       <Container>
         <div
@@ -56,10 +113,10 @@ function App() {
         </div>
         <div style={{ marginTop: "4rem" }}>
           <Input theme={theme} />
-          <TodoShell theme={theme} todos={state} dispatch={dispatch} />
+          <TodoShell theme={theme} todos={todos} dispatch={dispatch} />
         </div>
       </Container>
-    </div>
+    </AppStyles>
   );
 }
 

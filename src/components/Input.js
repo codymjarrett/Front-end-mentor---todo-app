@@ -11,7 +11,7 @@ const InputStyles = styled.input`
   background-color: ${({ theme }) =>
     theme === "light"
       ? `var(--light-very-light-gray)`
-      : `var(--dark-very-dark-blue)`};
+      : `var(--dark-very-dark-desaturated-blue)`};
 `;
 
 export default function Input(props) {

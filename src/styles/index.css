@@ -41,7 +41,6 @@ body {
   margin: 0;
   font-family: var(--body-font);
   font-size: var(--body-copy-size);
-  background-color: var(--light-very-light-grayish-blue);
 }
 
 .sr-only {
@@ -57,3 +56,11 @@ body {
   width: 1px !important;
   white-space: nowrap !important; /* 3 */
 }
+
+/* @supports (-webkit-appearance: none) or (-moz-appearance: none) {
+  input[type="checkbox"],
+  input[type="radio"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+} */

@@ -23,26 +23,43 @@ const CheckButtonStyles = styled(ButtonStyles)`
   border-radius: 100%;
   width: 22px;
   height: 22px;
+  border: 2px var(--light-very-light-grayish-blue) solid;
+  position: relative;
 
   &:focus {
     outline: none;
   }
-
-  ${({ complete }) => css`
-    border: ${complete
-      ? "none"
-      : `2px var(--light-very-light-grayish-blue) solid`};
-    background: ${({ complete }) => complete && `var(--check-background)`};
-  `}
 `;
 
 const TextStyles = styled.span`
-  ${({ theme }) => css`
-    color: ${theme === "light"
-      ? `var(--dark-very-dark-blue)`
-      : `var(--dark-light-grayish-blue)`};
-  `};
-  padding-left: 1rem;
+padding-left: 1rem;
+
+${({ theme, complete }) => {
+  if (complete) {
+    if (theme === "dark") {
+      return `
+      text-decoration: line-through;
+      color: var(--dark-light-grayish-blue);
+      `;
+    } else {
+      return `
+      text-decoration: line-through;
+      color: var(--dark-very-dark-blue)
+      `;
+    }
+  }
+
+  if (theme === "light") {
+    return `color: var(--dark-very-dark-blue)`;
+  }
+
+  if (theme === "dark") {
+    return `color: var(--dark-light-grayish-blue)`;
+  }
+}}
+
+    
+  };
 `;
 
 const TodoStyles = styled.li`
@@ -54,7 +71,7 @@ const TodoStyles = styled.li`
   display: flex;
   justify-content: space-between;
   padding: 1.5rem;
-  border-bottom: 2px var(--light-dark-grayish-blue) solid;
+  border-bottom: 1px var(--light-light-grayish-blue) solid;
 
   :first-child {
     border-top-right-radius: 5px;
@@ -62,10 +79,22 @@ const TodoStyles = styled.li`
   }
 `;
 
-const CheckboxStyles = styled.input`
-  width: 22px;
-  height: 22px;
+const SvgBackground = styled.div`
+  background: var(--check-background);
   border-radius: 100%;
+  width: inherit;
+  height: inherit;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: ${({ complete }) => (complete ? 1 : 0)};
+  svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 `;
 
 export default function SingleTodo(props) {
@@ -80,21 +109,29 @@ export default function SingleTodo(props) {
 
   const handleCompleteTodo = () => {
     if (!complete) {
-      dispatch({ type: "completeTodo", payload: { id } });
+      dispatch({ type: "COMPLETE_TODO", payload: { id } });
     } else {
-      dispatch({ type: "unCompleteTodo", payload: { id } });
+      dispatch({ type: "UNCOMPLETE_TODO", payload: { id } });
     }
+  };
+
+  const handleRemoveTodo = () => {
+    dispatch({ type: "REMOVE_TODO", payload: { id } });
   };
 
   return (
     <TodoStyles theme={theme}>
       <div>
         <CheckButtonStyles onClick={handleCompleteTodo} complete={complete}>
-          {complete && <Svg name="check" />}
+          <SvgBackground complete={complete}>
+            <Svg name="check" />
+          </SvgBackground>
         </CheckButtonStyles>
-        <TextStyles theme={theme}>{text}</TextStyles>
+        <TextStyles theme={theme} complete={complete}>
+          {text}
+        </TextStyles>
       </div>
-      <CrossButtonStyles theme={theme}>
+      <CrossButtonStyles theme={theme} onClick={handleRemoveTodo}>
         <Svg
           name="cross"
           color={isLight ? "" : `var(--dark-light-grayish-blue)`}
