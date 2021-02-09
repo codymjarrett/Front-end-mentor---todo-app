@@ -52,26 +52,33 @@ const getInitialState = () => {
 };
 
 const todosReducer = (draft, action) => {
+  const id = action?.payload?.id;
+  const todo = draft.todos.findIndex((todo) => todo.id === id);
+
   switch (action.type) {
+    case "ADD_TODO": {
+      const newTodo = action.payload.todo;
+      draft.todos.push({
+        text: newTodo,
+        complete: false,
+        id: draft.todos.length + 1,
+      });
+      break;
+    }
     case "COMPLETE_TODO": {
-      const id = action.payload.id;
-      const todo = draft.todos.findIndex((todo) => todo.id === id);
-      console.log(todo);
       draft.todos[todo].complete = true;
       break;
     }
     case "UNCOMPLETE_TODO": {
-      const id = action.payload.id;
-      const todo = draft.todos.findIndex((todo) => todo.id === id);
       draft.todos[todo].complete = false;
       break;
     }
-
     case "REMOVE_TODO": {
-      const id = action.payload.id;
-      const todo = draft.todos.findIndex((todo) => todo.id === id);
-
       draft.todos.splice(todo, 1);
+      break;
+    }
+    case "CLEAR_COMPLETED": {
+      draft.todos = draft.todos.filter((todo) => todo.complete !== true);
       break;
     }
   }
@@ -112,7 +119,7 @@ function App() {
           <ThemeSwitch theme={theme} toggleTheme={toggleTheme} />
         </div>
         <div style={{ marginTop: "4rem" }}>
-          <Input theme={theme} />
+          <Input theme={theme} dispatch={dispatch} />
           <TodoShell theme={theme} todos={todos} dispatch={dispatch} />
         </div>
       </Container>

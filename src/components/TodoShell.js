@@ -22,12 +22,36 @@ const TodoStyles = styled.li`
   padding: 1.5rem;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+`;
+
+const TextStyles = styled.span`
+  color: var(--light-dark-grayish-blue);
+`;
+
+const ButtonStyles = styled.span`
+  color: var(--light-dark-grayish-blue);
+  background: transparent;
+  border: none;
+  cursor: pointer;
 `;
 
 export default function TodoShell(props) {
   const { theme, todos, dispatch } = props;
 
   const numOfTodos = todos.length;
+
+  const handleClearComplete = () => {
+    dispatch({ type: "CLEAR_COMPLETED" });
+  };
+
+  const getNumberOfTodosText = () => {
+    if (numOfTodos == 1) {
+      return `1 item left`;
+    }
+    return `${numOfTodos} items left`;
+  };
 
   return (
     <TodoShellStyles>
@@ -36,10 +60,12 @@ export default function TodoShell(props) {
       ))}
       <TodoStyles theme={theme}>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <span>
-            {numOfTodos > 1 ? `${numOfTodos} items left` : `1 item left`}
-          </span>
-          <button>Clear Completed</button>
+          <TextStyles>{getNumberOfTodosText()}</TextStyles>
+          {todos.length > 0 && (
+            <ButtonStyles onClick={handleClearComplete}>
+              Clear Completed
+            </ButtonStyles>
+          )}
         </div>
       </TodoStyles>
     </TodoShellStyles>

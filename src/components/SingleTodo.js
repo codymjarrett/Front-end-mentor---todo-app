@@ -50,7 +50,7 @@ ${({ theme, complete }) => {
   }
 
   if (theme === "light") {
-    return `color: var(--dark-very-dark-blue)`;
+    return `color: var(--light-very-dark-grayish-blue)`;
   }
 
   if (theme === "dark") {
@@ -66,7 +66,7 @@ const TodoStyles = styled.li`
   ${({ theme }) => css`
     background-color: ${theme === "light"
       ? `var(--light-very-light-gray)`
-      : `var(--dark-very-dark-blue)`};
+      : `var(--dark-very-dark-desaturated-blue)`};
   `}
   display: flex;
   justify-content: space-between;
