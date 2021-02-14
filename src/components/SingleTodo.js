@@ -34,8 +34,8 @@ const CheckButtonStyles = styled(ButtonStyles)`
 const TextStyles = styled.span`
 padding-left: 1rem;
 
-${({ theme, complete }) => {
-  if (complete) {
+${({ theme, completed }) => {
+  if (completed) {
     if (theme === "dark") {
       return `
       text-decoration: line-through;
@@ -88,7 +88,7 @@ const SvgBackground = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  opacity: ${({ complete }) => (complete ? 1 : 0)};
+  opacity: ${({ completed }) => (completed ? 1 : 0)};
   svg {
     position: absolute;
     top: 50%;
@@ -103,12 +103,12 @@ export default function SingleTodo(props) {
     dispatch,
     todos,
 
-    todo: { text, complete, id },
+    todo: { text, completed, id },
   } = props;
   const isLight = theme === "light";
 
   const handleCompleteTodo = () => {
-    if (!complete) {
+    if (!completed) {
       dispatch({ type: "COMPLETE_TODO", payload: { id } });
     } else {
       dispatch({ type: "UNCOMPLETE_TODO", payload: { id } });
@@ -122,12 +122,12 @@ export default function SingleTodo(props) {
   return (
     <TodoStyles theme={theme}>
       <div>
-        <CheckButtonStyles onClick={handleCompleteTodo} complete={complete}>
-          <SvgBackground complete={complete}>
+        <CheckButtonStyles onClick={handleCompleteTodo} completed={completed}>
+          <SvgBackground completed={completed}>
             <Svg name="check" />
           </SvgBackground>
         </CheckButtonStyles>
-        <TextStyles theme={theme} complete={complete}>
+        <TextStyles theme={theme} completed={completed}>
           {text}
         </TextStyles>
       </div>

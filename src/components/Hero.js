@@ -8,7 +8,7 @@ const BackgroundImage = styled.div`
   background-image: ${({ theme }) =>
     theme === "light" ? `url("${BgDesktopLight}")` : `url("${BgDesktopDark}")`};
   height: 250px;
-  background-repeat: no-repeat;
+  background-size: cover;
 `;
 
 export default function Hero(props) {

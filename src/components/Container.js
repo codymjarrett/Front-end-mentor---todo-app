@@ -9,6 +9,10 @@ const ContainerStyles = styled.div`
   right: 0;
   margin-left: auto;
   margin-right: auto;
+
+  @media (min-width: 1440px) {
+    width: 40%;
+  }
 `;
 
 export default function Container({ children }) {
