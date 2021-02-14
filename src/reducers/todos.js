@@ -28,6 +28,21 @@ export const todosReducer = produce((draft = mock_data, action) => {
       draft.splice(todo, 1);
       break;
     }
+    case "CLEAR_COMPLETED": {
+      /* 
+        The array is being re-indexed when you do a .splice(), which means
+        you'll skip over an index when one is removed, and your cached .length is obsolete.
+        To fix, you'll need to iterate in reverse
+      */
+
+      let i = draft.length;
+      while (i--) {
+        if (draft[i].completed) {
+          draft.splice(i, 1);
+        }
+      }
+      break;
+    }
 
     default:
       return draft;

@@ -23,17 +23,17 @@ export default function TodoShell(props) {
     visibilityFilter,
   } = props;
 
-  const numOfTodos = todos.length;
+  const numOfTodosLeft = todos.filter((t) => !t.completed).length;
 
   const handleClearComplete = () => {
     dispatch({ type: "CLEAR_COMPLETED" });
   };
 
   const getNumberOfTodosText = () => {
-    if (numOfTodos == 1) {
+    if (numOfTodosLeft == 1) {
       return `1 item left`;
     }
-    return `${numOfTodos} items left`;
+    return `${numOfTodosLeft} items left`;
   };
 
   return (

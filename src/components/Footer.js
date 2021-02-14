@@ -134,6 +134,7 @@ export default function Footer(props) {
           <FilterButtons
             dispatch={dispatch}
             visibilityFilter={visibilityFilter}
+            updateVisibilityFilter={updateVisibilityFilter}
           />
         </FilterButtonWrapper>
         {todos.length > 0 && (
