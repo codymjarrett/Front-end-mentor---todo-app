@@ -15,7 +15,13 @@ const TodoShellStyles = styled.ul`
 `;
 
 export default function TodoShell(props) {
-  const { theme, todos, dispatch, updateVisibilityFilter } = props;
+  const {
+    theme,
+    todos,
+    dispatch,
+    updateVisibilityFilter,
+    visibilityFilter,
+  } = props;
 
   const numOfTodos = todos.length;
 
@@ -47,12 +53,14 @@ export default function TodoShell(props) {
           getNumberOfTodosText={getNumberOfTodosText}
           handleClearComplete={handleClearComplete}
           updateVisibilityFilter={updateVisibilityFilter}
+          visibilityFilter={visibilityFilter}
         />
       </TodoShellStyles>
       <MobileFilter
         theme={theme}
         dispatch={dispatch}
         updateVisibilityFilter={updateVisibilityFilter}
+        visibilityFilter={visibilityFilter}
       />
     </>
   );
@@ -68,4 +76,9 @@ TodoShell.propTypes = {
   ),
   dispatch: PropTypes.func.isRequired,
   updateVisibilityFilter: PropTypes.func.isRequired,
+  visibilityFilter: PropTypes.oneOf([
+    "SHOW_ALL",
+    "SHOW_COMPLETED",
+    "SHOW_ACTIVE",
+  ]),
 };

@@ -39,12 +39,12 @@ ${({ theme, completed }) => {
     if (theme === "dark") {
       return `
       text-decoration: line-through;
-      color: var(--dark-light-grayish-blue);
+      color: var(--dark-dark-grayish-blue);
       `;
     } else {
       return `
       text-decoration: line-through;
-      color: var(--dark-very-dark-blue)
+      color: var(--light-dark-grayish-blue)
       `;
     }
   }

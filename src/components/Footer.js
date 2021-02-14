@@ -29,6 +29,12 @@ const ButtonStyles = styled.span`
 
 const FilterButtonStyles = styled(ButtonStyles)`
   margin-right: 1rem;
+  cursor: pointer;
+
+  color: ${({ currentFilter, filter }) =>
+    currentFilter === filter
+      ? `var(--primary-bright-blue)`
+      : `var(--light-dark-grayish-blue)`};
 
   &:hover {
     color: var(--dark-very-dark-grayish-blue);
@@ -67,18 +73,28 @@ const MobileFilterWrapper = styled.div`
 `;
 
 function FilterButtons(props) {
-  const { updateVisibilityFilter } = props;
+  const { updateVisibilityFilter, visibilityFilter } = props;
 
   return (
     <div>
-      <FilterButtonStyles onClick={() => updateVisibilityFilter("SHOW_ALL")}>
+      <FilterButtonStyles
+        onClick={() => updateVisibilityFilter("SHOW_ALL")}
+        currentFilter={visibilityFilter}
+        filter="SHOW_ALL"
+      >
         All
       </FilterButtonStyles>
-      <FilterButtonStyles onClick={() => updateVisibilityFilter("SHOW_ACTIVE")}>
+      <FilterButtonStyles
+        onClick={() => updateVisibilityFilter("SHOW_ACTIVE")}
+        currentFilter={visibilityFilter}
+        filter="SHOW_ACTIVE"
+      >
         Active
       </FilterButtonStyles>
       <FilterButtonStyles
         onClick={() => updateVisibilityFilter("SHOW_COMPLETED")}
+        currentFilter={visibilityFilter}
+        filter="SHOW_COMPLETED"
       >
         Completed
       </FilterButtonStyles>
@@ -87,11 +103,14 @@ function FilterButtons(props) {
 }
 
 function MobileFilter(props) {
-  const { theme, dispatch, updateVisibilityFilter } = props;
+  const { theme, dispatch, updateVisibilityFilter, visibilityFilter } = props;
   return (
     <MobileFilterWrapper>
       <TodoBlockStyles theme={theme}>
-        <FilterButtons updateVisibilityFilter={updateVisibilityFilter} />
+        <FilterButtons
+          updateVisibilityFilter={updateVisibilityFilter}
+          visibilityFilter={visibilityFilter}
+        />
       </TodoBlockStyles>
     </MobileFilterWrapper>
   );
@@ -105,13 +124,17 @@ export default function Footer(props) {
     handleClearComplete,
     dispatch,
     updateVisibilityFilter,
+    visibilityFilter,
   } = props;
   return (
     <TodoStyles theme={theme}>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <TextStyles>{getNumberOfTodosText()}</TextStyles>
         <FilterButtonWrapper>
-          <FilterButtons dispatch={dispatch} />
+          <FilterButtons
+            dispatch={dispatch}
+            visibilityFilter={visibilityFilter}
+          />
         </FilterButtonWrapper>
         {todos.length > 0 && (
           <ButtonStyles onClick={handleClearComplete}>
@@ -137,4 +160,9 @@ Footer.propTypes = {
   handleClearComplete: PropTypes.func.isRequired,
   getNumberOfTodosText: PropTypes.func.isRequired,
   updateVisibilityFilter: PropTypes.func.isRequired,
+  visibilityFilter: PropTypes.oneOf([
+    "SHOW_ALL",
+    "SHOW_COMPLETED",
+    "SHOW_ACTIVE",
+  ]),
 };

@@ -68,6 +68,7 @@ function App() {
             todos={visibleTodos}
             dispatch={dispatch}
             updateVisibilityFilter={updateVisibilityFilter}
+            visibilityFilter={visibilityFilter}
           />
         </div>
       </Container>
