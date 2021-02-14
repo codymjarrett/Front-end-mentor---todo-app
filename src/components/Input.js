@@ -7,7 +7,10 @@ import Svg from "./Svg";
 const InputStyles = styled.input`
   font-family: var(--body-font);
   font-size: inherit;
-  color: var(--light-very-dark-grayish-blue);
+  color: ${({ theme }) =>
+    theme === "light"
+      ? `var(--light-very-dark-grayish-blue)`
+      : `var(--dark-light-grayish-blue)`};
   width: 100%;
   border-radius: 5px;
   height: 3rem;
@@ -99,8 +102,6 @@ export default function Input(props) {
 
   return (
     <InputWrapper>
-      {/* TODO add label text */}
-      <label />
       <CheckButtonWrapper>
         <CheckButtonStyles>
           <SvgBackground inputActive={inputActive}>

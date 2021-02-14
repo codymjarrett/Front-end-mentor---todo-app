@@ -10,8 +10,6 @@ const TodoStyles = styled.li`
   padding: 1.5rem;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
-  border-top-right-radius: 5px;
-  border-top-left-radius: 5px;
 `;
 const TextStyles = styled.span`
   color: var(--light-dark-grayish-blue);

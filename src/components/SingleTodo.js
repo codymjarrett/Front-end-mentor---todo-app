@@ -10,6 +10,7 @@ const ButtonStyles = styled.button`
 `;
 
 const CrossButtonStyles = styled(ButtonStyles)`
+  visibility: hidden;
   img {
     ${({ theme }) => css`
       color: ${theme === "light"
@@ -33,6 +34,8 @@ const CheckButtonStyles = styled(ButtonStyles)`
 
 const TextStyles = styled.span`
 padding-left: 1rem;
+display: block;
+margin-left: 1rem;
 
 ${({ theme, completed }) => {
   if (completed) {
@@ -63,6 +66,7 @@ ${({ theme, completed }) => {
 `;
 
 const TodoStyles = styled.li`
+  cursor: pointer;
   ${({ theme }) => css`
     background-color: ${theme === "light"
       ? `var(--light-very-light-gray)`
@@ -76,6 +80,12 @@ const TodoStyles = styled.li`
   :first-child {
     border-top-right-radius: 5px;
     border-top-left-radius: 5px;
+  }
+
+  &:hover {
+    ${CrossButtonStyles} {
+      visibility: visible;
+    }
   }
 `;
 
@@ -121,7 +131,7 @@ export default function SingleTodo(props) {
 
   return (
     <TodoStyles theme={theme}>
-      <div>
+      <div style={{ display: "flex" }}>
         <CheckButtonStyles onClick={handleCompleteTodo} completed={completed}>
           <SvgBackground completed={completed}>
             <Svg name="check" />

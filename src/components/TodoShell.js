@@ -5,8 +5,12 @@ import SingleTodo from "./SingleTodo";
 import Footer, { MobileFilter } from "./Footer";
 
 const TodoShellStyles = styled.ul`
+  ${({ theme }) => css`
+    background-color: ${theme === "light"
+      ? `var(--light-very-light-gray)`
+      : `var(--dark-very-dark-desaturated-blue)`};
+  `}
   margin-top: 1rem;
-  background-color: var(--light-very-light-gray);
   width: 100%;
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
@@ -38,7 +42,7 @@ export default function TodoShell(props) {
 
   return (
     <>
-      <TodoShellStyles>
+      <TodoShellStyles theme={theme}>
         {todos.map((todo, index) => (
           <SingleTodo
             theme={theme}
